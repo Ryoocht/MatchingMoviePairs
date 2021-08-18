@@ -1,25 +1,29 @@
 import React from "react";
+import "../style/Img.css";
 
-const Card = ({movie}) => {
-    while(i < 8){
-        if(movie === undefined){
-            continue;
-        }
+const Card = props => {
+    let cardStyle = "card card-back";
+    let numStyle = "front";
+    switch(props.ready){
+        case 1:
+            numStyle = "back";
+            break;
+        case 2:
+            numStyle = "back matched";
+            break;
+        case 3:
+            numStyle = "back unmatched";
+            break;
+        default:
+            cardStyle = "card card-front";
+            break;
     }
 
-
-    // if(movie === undefined){
-    //     continue;
-    // } else {
-    //     return(
-    //         <div className="card">
-    //             {/* <h1>{movie.title}</h1> */}
-    //             {/* <img src={movie.poster_path} alt={movie.id}></img> */}
-    //             <h1>{console.log(movie)}</h1>
-                
-    //         </div>
-    //     )
-    // }
+    return (
+        <button className={cardStyle} onClick={props.onClick}>
+            <div className={numStyle}><img src={`https://image.tmdb.org/t/p/original/${props.number}`} alt="movie"></img></div>
+        </button>
+    )
 }
 
 export default Card;
