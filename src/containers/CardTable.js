@@ -1,15 +1,19 @@
-import React from "react";
+import { Component } from "react";
 import Card from "../components/Card";
 
-class CardTable extends React.Component {
+class CardTable extends Component {
 
     state = {
         genre: 28,
-        movieData: {
-            movieId: [],
-            movieImgs: []
-        },
-        cardData: {}
+        movieImgs: [],
+        initialCards: [],
+        cardStatus: -1,
+        message: '',
+        count: 100,
+        timer: null,
+        title:'',
+        run:false,
+        overlay: 'overlay'
     }
 
     fetchMoviePics = async() => {
@@ -24,52 +28,22 @@ class CardTable extends React.Component {
         movies.map(movie => {
             if (movie.poster_path !== null) {
                 this.setState({
-                    movieData: {
-                        movieId: [...this.state.movieData.movieId, movie.id],
-                        movieImgs: [...this.state.movieData.movieImgs, movie.poster_path]
-                    }
+                    movieImgs: [...this.state.movieImgs, movie.poster_path]
                 })
             }
         })
         this.setState({
-            cardData: this.getCardData(this.state.movieData.movieImgs)
+            initialCards: this.combinedUrls(this.state.movieImgs)
         })
     }
 
-    gameStart = () => {
-        if(this.state.cardData.run){
-            return;
-        }
-        this.setState({
-            cardData: this.getCardData(this.state.movieData.movieImgs)
-        });
-        const timer = setInterval(() => this.countDown(), 1000);
-        this.setState({
-            cardData: {
-                ...this.state.cardData,
-                timer: timer,
-                run: true,
-                overlay: ""
-            }
-        });
-    }
-
-    getCardData = movieData => {
-        let slicedUrls = movieData.slice(0, 10);
+    combinedUrls = movieImgs => {
+        let slicedUrls = movieImgs.slice(0, 10);
         let imgUrls = (slicedUrls + "," + slicedUrls).split(",");
-        let sts = Array(imgUrls.length).fill(0);
         imgUrls = this.shuffle(imgUrls);
-        return {
-            cards: imgUrls,
-            status: sts, //init:0, turned:1, both turned and matched:2, both tuened and unmatched:3
-            ready: -1, //clicked card: -1, clicked unmatched: -2
-            message: "", //message for matched or not
-            count: 15, //count down
-            timer: null, //setInterval value
-            title: "", //Congrats or game over
-            run: false, //state in the game
-            overlay: "overlay" //overlay class
-        }
+        return imgUrls.map(url => [
+            {value: url, matchStatus: 0}
+        ])
     }
 
     shuffle = ([...array]) => {
@@ -80,31 +54,30 @@ class CardTable extends React.Component {
         return array;
     }
 
-    handleClick(i){
-        const { cardData } = this.state.cardData;
-        const sts = cardData.status.slice();
-        if(cardData.status[i] !== 0){
+    checkMatch = (value, id) => {
+        const sts = this.state.initialCards.map(data => data[0].matchStatus);
+        if(this.state.initialCards[id][0].matchStatus !== 0){
             return;
         }
-        let run = cardData.run;
+        let run = this.state.run;
         if(!run){
-            return;
+            return
         }
-        let ready = -1,
+        let cardStatus = -1,
             message = "",
             title = "",
             overlay = "";
-        if(cardData.ready === -2){
+        if(this.state.cardStatus === -2){
             return;
-        } else if(cardData.ready === -1){
-            sts[i] = 1;
-            ready = i;
-        } else if(cardData.ready !== i){
-            sts[i] = 1;
-            if(cardData.cards[cardData.ready] === cardData.cards[i]){
+        } else if(this.state.cardStatus === -1){
+            sts[id] = 1;
+            cardStatus = id;
+        } else if(this.state.cardStatus !== id){
+            sts[id] = 1;
+            if(this.state.initialCards[this.state.cardStatus][0].value === value){
                 message = "Matched!";
-                sts[cardData.ready] = 2;
-                sts[i] = 2;
+                sts[this.state.cardStatus] = 2;
+                sts[id] = 2;
                 if(!this.isFinish(sts)){
                     setTimeout(() => {
                         this.cardClear();
@@ -112,125 +85,118 @@ class CardTable extends React.Component {
                 } else {
                     message = "";
                     run = false;
-                    title = "Congratulations!"
+                    title = "Congratulations!";
                     overlay = "overlay overlay-end";
-                    clearInterval(cardData.timer);
                 }
             } else {
                 message = "Unmatched!";
-                ready = -2;
-                sts[cardData.ready] = 3;
-                sts[i] = 3;
-                const rollbacksts = cardData.status.slice();
-                rollbacksts[cardData.ready] = 0;
-                rollbacksts[i] = 0;
+                cardStatus = -2;
+                sts[this.state.cardStatus] = 3;
+                sts[id] = 3;
+                const rollbacksts = this.state.initialCards.map(data => data[0].matchStatus);
+                rollbacksts[this.state.cardStatus] = 0;
+                rollbacksts[id] = 0;
                 setTimeout(() => {
                     this.cardClear();
                     this.cardReset(rollbacksts);
                 }, 800);
             }
-        }
+        } 
         this.setState({
-            cardData: {
-                ...this.state.cardData,
-                status: sts,
-                ready: ready,
-                message: message,
-                run: run,
-                title: title,
-                overlay: overlay
-            }
+            matchStatus: sts,
+            cardStatus: cardStatus,
+            message: message,
+            run: run,
+            title: title,
+            overlay: overlay
         });
     }
 
-    cardReset = sts => {
+    gameStart = () => {
+        if(this.state.run){
+            return;
+        }
+        const timer = setInterval(() => this.countDown(), 1000);
         this.setState({
-            cardData: {
-               ...this.state.cardData,
-               status: sts,
-               ready: -1
-            }
+            timer: timer,
+            run: true,
+            overlay: ""
+        });
+    }
+
+    cardReset = (sts) => {
+        this.setState({
+            matchStatus: sts,
+            cardStatus: -1
         });
     }
 
     cardClear = () => {
         this.setState({
-            cardData: {
-                ...this.state.cardData,
-                message: ""
-            }
-        });
+            message: ""
+        })
     }
 
-    isFinish = sts => {
-        let flg = true;
-        for(let i = 0; i < sts.length; i++){
-            if(sts[i] !== 2){
-                flg = false;
+    isFinish = (sts) => {
+        let flag = true;
+        for (const index of sts) {
+            if(sts[index] !== 2){
+                flag = false;
                 break;
             }
         }
-        return flg;
+        return flag;
     }
 
     countDown = () => {
-        let nextCount = this.state.cardData.count-1;
+        let nextCount = this.state.count - 1;
         if(nextCount < 1){
-            this.setState({
-                cardData: {
-                    ...this.state.cardData,
-                    message: "",
-                    count: 0,
-                    run: false,
-                    title: "Game Over",
-                    overlay: "overlay overlay-end"
-                }
+            this.state({
+                message: "",
+                count: 0,
+                run: false,
+                titl: "Game Over",
+                overlay: "overlay overlay-end"
             });
+            clearInterval(this.state.timer);
         } else {
             this.setState({
-                cardData: {
-                    ...this.state.cardData,
-                    count: nextCount
-                }
+                count: nextCount
             });
         }
     }
 
-    // renderCard(i){
-    //     return(
-    //         <Card key={i} 
-    //             number={this.state.cardData.cards[i]}
-    //             ready={this.state.cardData.status[i]}
-    //             onClick={() => {this.handleClick(i)}}
-    //         />
-    //     );
-    // }
+    renderCards = cards => {
+        return this.state.movieImgs.length === this.state.initialCards.length
+        ?
+        cards.map((card, index) => {
+            return(
+                <Card 
+                    key={index}
+                    value={card[0].value}
+                    id={index}
+                    matchStatus={card[0].matchStatus}
+                    checkMatch={this.checkMatch}
+                />
+            );
+        })
+        : <h1>Loading</h1>
+    }
 
     render(){
-        // const cards = [];
-        // for(let i = 0; i < 10; i++){
-        //     cards.push(this.renderCard(i));
-        // }
         return(
             <div>
-                <button className="start-button" onClick={this.gameStart}>Start</button>
-                <div className="count-number">Remaining Time: {this.state.cardData.count}s</div>
+                <button className="start-button" onClick={this.gameStart}>Game Start</button>
+                <div className="count-number">Time: {this.state.count}</div>
+                <div className="status">{this.state.message}</div>
                 <div className="table">
-                    {() => {
-                        const cards = [];
-                        for(let i = 0; i < 10; i++){
-                            cards.push(<Card key={i} 
-                                number={this.state.cardData.cards[i]}
-                                ready={this.state.cardData.status[i]}
-                                onClick={() => {this.handleClick(i)}}
-                            />);
-                        }
-                    }}
+                    {this.renderCards(this.state.initialCards)}
+                    <div className={this.state.overlay}><p className="title">{this.state.title}</p></div>
                 </div>
-                <div className="status">{this.state.cardData.message}</div>
-                <div className={this.state.cardData.overlay}><p className="title">{this.state.cardData.title}</p></div>
+                
+                
             </div>
-        );
+        )
     }
 }
 
