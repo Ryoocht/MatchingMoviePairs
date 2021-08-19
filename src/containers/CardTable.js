@@ -25,7 +25,7 @@ class CardTable extends React.Component {
             if (movie.poster_path !== null) {
                 this.setState({
                     movieData: {
-                        movieId: movie.id,
+                        movieId: [...this.state.movieData.movieId, movie.id],
                         movieImgs: [...this.state.movieData.movieImgs, movie.poster_path]
                     }
                 })
@@ -34,11 +34,29 @@ class CardTable extends React.Component {
         this.setState({
             cardData: this.getCardData(this.state.movieData.movieImgs)
         })
-        console.log(this.state)
+    }
+
+    gameStart = () => {
+        if(this.state.cardData.run){
+            return;
+        }
+        this.setState({
+            cardData: this.getCardData(this.state.movieData.movieImgs)
+        });
+        const timer = setInterval(() => this.countDown(), 1000);
+        this.setState({
+            cardData: {
+                ...this.state.cardData,
+                timer: timer,
+                run: true,
+                overlay: ""
+            }
+        });
     }
 
     getCardData = movieData => {
-        let imgUrls = Array(3).join(movieData);
+        let slicedUrls = movieData.slice(0, 10);
+        let imgUrls = (slicedUrls + "," + slicedUrls).split(",");
         let sts = Array(imgUrls.length).fill(0);
         imgUrls = this.shuffle(imgUrls);
         return {
@@ -63,7 +81,7 @@ class CardTable extends React.Component {
     }
 
     handleClick(i){
-        let { cardData } = this.state.cardData;
+        const { cardData } = this.state.cardData;
         const sts = cardData.status.slice();
         if(cardData.status[i] !== 0){
             return;
@@ -125,22 +143,6 @@ class CardTable extends React.Component {
         });
     }
 
-    gameStart = () => {
-        if(this.state.cardData.run){
-            return;
-        }
-        this.setState({cardData: this.getCardData()});
-        const timer = setInterval(() => this.countDown(), 1000);
-        this.setState({
-            cardData: {
-                ...this.state.cardData,
-                timer: timer,
-                run: true,
-                overlay: ""
-            }
-        });
-    }
-
     cardReset = sts => {
         this.setState({
             cardData: {
@@ -194,27 +196,36 @@ class CardTable extends React.Component {
         }
     }
 
-    renderCard(i) {
-        return(
-            <Card key={i} 
-                number={this.state.cardData.cards[i]}
-                ready={this.state.cardData.status[i]}
-                onClick={() => {this.handleClick(i)}}
-            />
-        );
-    }
+    // renderCard(i){
+    //     return(
+    //         <Card key={i} 
+    //             number={this.state.cardData.cards[i]}
+    //             ready={this.state.cardData.status[i]}
+    //             onClick={() => {this.handleClick(i)}}
+    //         />
+    //     );
+    // }
 
     render(){
-        const cards = [];
-        for(let i = 0; i < 10; i++){
-            cards.push(this.renderCard(i));
-        }
+        // const cards = [];
+        // for(let i = 0; i < 10; i++){
+        //     cards.push(this.renderCard(i));
+        // }
         return(
             <div>
                 <button className="start-button" onClick={this.gameStart}>Start</button>
                 <div className="count-number">Remaining Time: {this.state.cardData.count}s</div>
                 <div className="table">
-                    {cards}
+                    {() => {
+                        const cards = [];
+                        for(let i = 0; i < 10; i++){
+                            cards.push(<Card key={i} 
+                                number={this.state.cardData.cards[i]}
+                                ready={this.state.cardData.status[i]}
+                                onClick={() => {this.handleClick(i)}}
+                            />);
+                        }
+                    }}
                 </div>
                 <div className="status">{this.state.cardData.message}</div>
                 <div className={this.state.cardData.overlay}><p className="title">{this.state.cardData.title}</p></div>
