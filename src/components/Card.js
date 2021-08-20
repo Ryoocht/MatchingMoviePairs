@@ -2,24 +2,20 @@ import React from "react";
 import "../style/Img.css";
 
 const Card = props => {
-    let cardStyle;
-    let imgDisplay;
+    let cardStyle = 'card card-back';
+    let numStyle = 'front';
     switch(props.matchStatus){
         case 1:
-            cardStyle = "card front";
-            imgDisplay = "front-display";
+            numStyle = 'back';
             break;
-        case 2: 
-            cardStyle = "card front match";
-            imgDisplay = "front-display";
+        case 2:
+            numStyle = "back matched";
             break;
         case 3:
-            cardStyle = "card front unmatch";
-            imgDisplay = "front-display";
+            numStyle = "back unmached";
             break;
         default:
-            cardStyle = "card back";
-            imgDisplay = "back-display";
+            cardStyle = 'card card-front';
             break;
     }
 
@@ -27,11 +23,11 @@ const Card = props => {
         props.checkMatch(props.value, props.id);
     }
     
-    return(
+    return (
         <button className={cardStyle} onClick={handleClick}>
-            <img className={imgDisplay === "back-display" ? "imgBackStyle back-display" : "imgFrontStyle front-display"} src={`https://image.tmdb.org/t/p/original/${props.value}`} alt="movie"></img>
+            <div className={numStyle}><img className="imgStyle" src={`https://image.tmdb.org/t/p/original/${props.value}`} alt="movie"></img></div>
         </button>
-    )
+    );
 }
 
 export default Card;

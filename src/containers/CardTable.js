@@ -7,6 +7,7 @@ class CardTable extends Component {
         genre: 28,
         movieImgs: [],
         initialCards: [],
+        matchStatus: Array(20).fill(0),
         cardStatus: -1,
         message: '',
         count: 100,
@@ -41,9 +42,7 @@ class CardTable extends Component {
         let slicedUrls = movieImgs.slice(0, 10);
         let imgUrls = (slicedUrls + "," + slicedUrls).split(",");
         imgUrls = this.shuffle(imgUrls);
-        return imgUrls.map(url => [
-            {value: url, matchStatus: 0}
-        ])
+        return imgUrls.map(url => url)
     }
 
     shuffle = ([...array]) => {
@@ -55,58 +54,57 @@ class CardTable extends Component {
     }
 
     checkMatch = (value, id) => {
-        const sts = this.state.initialCards.map(data => data[0].matchStatus);
-        if(this.state.initialCards[id][0].matchStatus !== 0){
+        let matchStatus = this.state.matchStatus.slice();
+        if(this.state.matchStatus[id] !== 0){
             return;
         }
         let run = this.state.run;
         if(!run){
             return
         }
+
         let cardStatus = -1,
             message = "",
             title = "",
             overlay = "";
         if(this.state.cardStatus === -2){
-            console.log("-2")
             return;
         } else if(this.state.cardStatus === -1){
-            console.log("-1")
-            sts[id] = 1;
+            matchStatus[id] = 1;
             cardStatus = id;
         } else if(this.state.cardStatus !== id){
-            console.log("id number")
-            sts[id] = 1;
-            if(this.state.initialCards[this.state.cardStatus][0].value === value){
+            matchStatus[id] = 1;
+            if(this.state.initialCards[this.state.cardStatus] === value){
                 message = "Matched!";
-                sts[this.state.cardStatus] = 2;
-                sts[id] = 2;
-                if(!this.isFinish(sts)){
+                matchStatus[this.state.cardStatus] = 2;
+                matchStatus[id] = 2;
+                if(!this.isFinish(matchStatus)){
                     setTimeout(() => {
                         this.cardClear();
-                    }, 800);
+                    }, 1000);
                 } else {
                     message = "";
                     run = false;
                     title = "Congratulations!";
                     overlay = "overlay overlay-end";
+                    clearInterval(this.state.timer);
                 }
             } else {
                 message = "Unmatched!";
                 cardStatus = -2;
-                sts[this.state.cardStatus] = 3;
-                sts[id] = 3;
-                const rollbacksts = this.state.initialCards.map(data => data[0].matchStatus);
+                matchStatus[this.state.cardStatus] = 3;
+                matchStatus[id] = 3;
+                const rollbacksts = this.state.matchStatus.slice();
                 rollbacksts[this.state.cardStatus] = 0;
                 rollbacksts[id] = 0;
                 setTimeout(() => {
                     this.cardClear();
                     this.cardReset(rollbacksts);
-                }, 800);
+                }, 1000);
             }
-        } 
+        }
         this.setState({
-            matchStatus: sts,
+            matchStatus: matchStatus,
             cardStatus: cardStatus,
             message: message,
             run: run,
@@ -127,9 +125,9 @@ class CardTable extends Component {
         });
     }
 
-    cardReset = (sts) => {
+    cardReset = (matchStatus) => {
         this.setState({
-            matchStatus: sts,
+            matchStatus: matchStatus,
             cardStatus: -1
         });
     }
@@ -140,10 +138,10 @@ class CardTable extends Component {
         })
     }
 
-    isFinish = (sts) => {
+    isFinish = (matchStatus) => {
         let flag = true;
-        for (const index of sts) {
-            if(sts[index] !== 2){
+        for (let i = 0; i < matchStatus.length; i++) {
+            if(matchStatus[i] !== 2){
                 flag = false;
                 break;
             }
@@ -154,11 +152,11 @@ class CardTable extends Component {
     countDown = () => {
         let nextCount = this.state.count - 1;
         if(nextCount < 1){
-            this.state({
+            this.setState({
                 message: "",
                 count: 0,
                 run: false,
-                titl: "Game Over",
+                title: "Game Over",
                 overlay: "overlay overlay-end"
             });
             clearInterval(this.state.timer);
@@ -169,16 +167,16 @@ class CardTable extends Component {
         }
     }
 
-    renderCards = cards => {
+    renderCards = (cards, matchStatus) => {
         return this.state.movieImgs.length === this.state.initialCards.length
         ?
         cards.map((card, index) => {
             return(
                 <Card 
                     key={index}
-                    value={card[0].value}
+                    value={card}
                     id={index}
-                    matchStatus={card[0].matchStatus}
+                    matchStatus={matchStatus[index]}
                     checkMatch={this.checkMatch}
                 />
             );
@@ -193,11 +191,9 @@ class CardTable extends Component {
                 <div className="count-number">Time: {this.state.count}</div>
                 <div className="status">{this.state.message}</div>
                 <div className="table">
-                    {this.renderCards(this.state.initialCards)}
+                    {this.renderCards(this.state.initialCards, this.state.matchStatus)}
                     <div className={this.state.overlay}><p className="title">{this.state.title}</p></div>
                 </div>
-                
-                
             </div>
         )
     }
