@@ -12,9 +12,17 @@ class CardTable extends Component {
         message: '',
         count: 100,
         timer: null,
-        title:'',
-        run:false,
-        overlay: 'overlay'
+        title:  '',
+        run:    false,
+        overlay: 'overlay',
+        record: {
+            attempts: 0,
+            clicks: 0,
+            corrects: 0,
+            gamesPlayed: 0,
+            time: "",
+            accuracy: 0
+        }
     }
 
     fetchMoviePics = async() => {
@@ -55,6 +63,7 @@ class CardTable extends Component {
 
     checkMatch = (value, id) => {
         let matchStatus = this.state.matchStatus.slice();
+        let { corrects } = this.state.record;
         if(this.state.matchStatus[id] !== 0){
             return;
         }
@@ -78,6 +87,7 @@ class CardTable extends Component {
                 message = "Matched!";
                 matchStatus[this.state.cardStatus] = 2;
                 matchStatus[id] = 2;
+                corrects += 2;
                 if(!this.isFinish(matchStatus)){
                     setTimeout(() => {
                         this.cardClear();
@@ -103,6 +113,8 @@ class CardTable extends Component {
                 }, 1000);
             }
         }
+        console.log(this.state.record.corrects)
+        this.addNumberOfClicks(corrects);
         this.setState({
             matchStatus: matchStatus,
             cardStatus: cardStatus,
@@ -167,6 +179,22 @@ class CardTable extends Component {
         }
     }
 
+    addNumberOfClicks = corrects => {
+        const { clicks } = this.state.record;
+        const numberOfClicks = clicks + 1;
+        const attempts = Math.floor(numberOfClicks / 2);
+        const revealedCards = Math.ceil((20 - (20 - corrects)) / 2);
+        const accuracy = Math.floor(revealedCards ? (revealedCards / attempts) * 100 : 0);
+        this.setState({
+            record: {
+                clicks: numberOfClicks,
+                attempts,
+                corrects,
+                accuracy
+            }
+        });
+    }
+
     renderCards = (cards, matchStatus) => {
         return this.state.movieImgs.length === this.state.initialCards.length
         ?
@@ -185,11 +213,17 @@ class CardTable extends Component {
     }
 
     render(){
+        const { gamesPlayed, attempts: attempt, accuracy } = this.state.record;
         return(
             <div>
                 <button className="start-button" onClick={this.gameStart}>Game Start</button>
                 <div className="count-number">Time: {this.state.count}</div>
                 <div className="status">{this.state.message}</div>
+                <div id="gameStatus">
+                    <span className="stat">Games Played: {gamesPlayed}</span>
+                    <span className="stat">Attempts: {attempt}</span>
+                    <span className="stat">Accuracy: {accuracy}%</span>
+                </div>
                 <div className="table">
                     {this.renderCards(this.state.initialCards, this.state.matchStatus)}
                     <div className={this.state.overlay}><p className="title">{this.state.title}</p></div>
