@@ -43,27 +43,34 @@ body {
   height: 285px;
 }
 
-.card-back {
-  background-image: url(https://drive.google.com/uc?export=view&id=1yTFnOjNL55k45ixbH4_YmlLkFFjtEs1k);
-  background-size: 250px;
-  background-repeat: no-repeat;
-  cursor: pointer;
-}
-
-.card-front {
-  background-image: none;
-  cursor: unset;
-}
-
-.back {
+.imgBackStyle {
   display: none;
 }
 
-.front {
+.imgFrontStyle {
   width: 250px;
   height: 285px;
-  border-radius: 3px;
 }
+
+.back-display {
+  background-image: url(https://drive.google.com/uc?export=view&id=1yTFnOjNL55k45ixbH4_YmlLkFFjtEs1k);
+  background-size: 250px;
+  cursor: pointer;
+}
+
+.front-display {
+  background: none;
+}
+
+.front:hover {
+  transform: scale(1.1);
+}
+
+.back:hover {
+  transform: scale(1.1);
+}
+
+
 
 .match {
   border: 3px solid red;

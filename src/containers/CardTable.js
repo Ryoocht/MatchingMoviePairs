@@ -68,11 +68,14 @@ class CardTable extends Component {
             title = "",
             overlay = "";
         if(this.state.cardStatus === -2){
+            console.log("-2")
             return;
         } else if(this.state.cardStatus === -1){
+            console.log("-1")
             sts[id] = 1;
             cardStatus = id;
         } else if(this.state.cardStatus !== id){
+            console.log("id number")
             sts[id] = 1;
             if(this.state.initialCards[this.state.cardStatus][0].value === value){
                 message = "Matched!";
