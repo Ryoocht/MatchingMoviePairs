@@ -75,9 +75,9 @@ button {
   cursor: pointer;
 }
 
-/* .front {
+.front {
   display: none;
-} */
+}
 
 .match {
   border: 3px solid red;
