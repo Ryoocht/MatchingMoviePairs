@@ -5,7 +5,7 @@ import {
 } from "react-router-dom";
 import "../style/App.css";
 import NavBar from "../components/NavBar";
-import Home from "../components/Home";
+import Home from "../screens/Home";
 import CardTable from "./CardTable";
 import Status from "../components/Status";
 
