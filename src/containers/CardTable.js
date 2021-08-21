@@ -113,7 +113,6 @@ class CardTable extends Component {
                 }, 1000);
             }
         }
-        console.log(this.state.record.corrects)
         this.addNumberOfClicks(corrects);
         this.setState({
             matchStatus: matchStatus,
