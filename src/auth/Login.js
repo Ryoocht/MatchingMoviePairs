@@ -3,6 +3,7 @@ import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { AuthContext } from "./AuthProvider";
 import "../style/Auth.css";
+import logo from "../img/movie-tickets.png";
 
 const Login = ({ history }) => {
     const { login } = useContext(AuthContext);
@@ -15,21 +16,24 @@ const Login = ({ history }) => {
     };
 
     return (
-        <div className="login-page animate">
-            <div className="form">
-                <div className="login">
-                    <div className="login-header">
-                        <h3>LOGIN</h3>
-                    </div>
-                    <form className="login-form" onSubmit={handleSubmit}>
-                        <label for="email"><b>Email</b></label>
-                            <input name="email" type="email" placeholder="Email" />
-                        <label for="password"><b>Password</b></label>
-                            <input name="password" type="password" placeholder="Password" />
-                        <button type="submit">Log in</button>
-                    </form>
-                    <Link to="/signup">Create your account here</Link>
+        <div>
+            <div className="login">
+                <div className="logoContainer">
+                    <img className="movieicon" src={logo}></img>
+                    <p className="main-title">Matching Movie</p>
+                    <p className="main-title">Pairs</p>
                 </div>
+                <h1>LOGIN</h1>
+                <form onSubmit={handleSubmit}>
+                    <label className="labels">Email</label>
+                    <input name="email" type="email" placeholder="Email" />
+                    <label className="labels">Password</label>
+                    <input name="password" type="password" placeholder="Password" />
+                    <button className="btn btn-primary btn-block btn-large" type="submit">Log in</button>
+                </form>
+                <button className="createBtn">
+                    <Link to="/signup" className="createLink">Create Your New Account</Link>
+                </button>
             </div>
         </div>
     );

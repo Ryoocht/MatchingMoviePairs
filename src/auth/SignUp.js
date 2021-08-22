@@ -3,6 +3,7 @@ import { withRouter } from "react-router";
 import { AuthContext } from "./AuthProvider";
 import { Link } from "react-router-dom";
 import "../style/Auth.css";
+import logo from "../img/movie-tickets.png";
 
 const SignUp = ({ history }) => {
   const { signup } = useContext(AuthContext);
@@ -15,19 +16,24 @@ const SignUp = ({ history }) => {
 
   return (
     <div>
-      <h1>Sign up</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Email
+      <div className="login">
+        <div className="logoContainer">
+          <img className="movieicon" src={logo}></img>
+          <p className="main-title">Matching Movie</p>
+          <p className="main-title">Pairs</p>
+        </div>
+        <h1>SIGNUP</h1>
+        <form onSubmit={handleSubmit}>
+          <label className="labels">Email</label>
           <input name="email" type="email" placeholder="Email" />
-        </label>
-        <label>
-          Password
+          <label className="labels">Password</label>
           <input name="password" type="password" placeholder="Password" />
-        </label>
-        <button type="submit">Sign Up</button>
-      </form>
-      <Link to="/login">Go back to Login</Link>
+          <button className="btn btn-primary btn-block btn-large" type="submit">Sign Up</button>
+        </form>
+        <button className="createBtn">
+          <Link to="/login" className="createLink">Go back to Login</Link>
+        </button>
+      </div>
     </div>
   );
 };
