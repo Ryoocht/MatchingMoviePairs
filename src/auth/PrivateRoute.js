@@ -9,7 +9,7 @@ const PrivateRoute = ({ component, ...rest }) => {
     //When currentUser return true then component = Home
     //If return value is false then jump to Login component
     const Component = currentUser ? component : Login;
-    return <Route {...rest} component={Component, Component} />;
+    return <Route {...rest} component={Component} />;
 };
 
 export default PrivateRoute;

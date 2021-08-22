@@ -10,6 +10,7 @@ import NavBar from "../components/NavBar";
 import CardTable from "./CardTable";
 import Status from "../components/Status";
 
+
 const App = () => {
     return (
         <AuthProvider>
@@ -17,8 +18,8 @@ const App = () => {
                 <Switch>
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/signup" component={SignUp} />
-                    <PrivateRoute exact path="/" component={Home, NavBar} />
-                
+                    <PrivateRoute exact path="/" component={Home} />
+                    <NavBar />
                     <Route exact path="/game" component={CardTable} />
                     <Route exact path="/status" component={Status} />
                     <Route render={() => <p>not found.</p>} />

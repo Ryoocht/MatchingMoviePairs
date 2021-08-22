@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { withRouter } from "react-router";
 import { AuthContext } from "./AuthProvider";
 import { Link } from "react-router-dom";
+import "../style/Auth.css";
 
 const SignUp = ({ history }) => {
   const { signup } = useContext(AuthContext);
