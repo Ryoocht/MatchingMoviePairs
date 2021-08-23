@@ -1,6 +1,7 @@
 import { Component } from "react";
 import Card from "../components/Card";
-import { AddNewRecord } from "../firebase/Database";
+// import { AddNewRecord } from "../firebase/Database";
+import "../style/Img.css";
 
 class CardTable extends Component {
 
@@ -33,6 +34,10 @@ class CardTable extends Component {
     }
 
     async componentDidMount() {
+        const genreId = this.props.location.pathname.split("/")[2];
+        this.setState({
+            genre: genreId
+        })
         const movies = await this.fetchMoviePics();
         movies.map(movie => {
             if (movie.poster_path !== null) {
@@ -93,8 +98,8 @@ class CardTable extends Component {
                         this.cardClear();
                     }, 1000);
                 } else {
-                    AddNewRecord(this.state.record);
-                    console.log("addnewRecord should be called")
+                    // AddNewRecord(this.state.record);
+                    // console.log("addnewRecord should be called")
                     message = "";
                     run = false;
                     title = "Congratulations!";
@@ -217,12 +222,12 @@ class CardTable extends Component {
         const { attempts: attempt, accuracy } = this.state.record;
         return(
             <div>
-                <button className="start-button" onClick={this.gameStart}>Game Start</button>
-                <div className="count-number">Time: {this.state.count}</div>
-                <div className="status">{this.state.message}</div>
-                <div id="gameStatus">
-                    <span className="stat">Attempts: {attempt}</span>
-                    <span className="stat">Accuracy: {accuracy}%</span>
+                <div className="status-container">
+                    <button className="start-button" onClick={this.gameStart}>Game Start</button>
+                    <div className="count-number">Time: {this.state.count}</div>
+                    <div className="gameStatus">Attempts: {attempt}</div>
+                    <div className="gameStatus">Accuracy: {accuracy}%</div>
+                    <div className="gameStatus">{this.state.message}</div>
                 </div>
                 <div className="table">
                     {this.renderCards(this.state.initialCards, this.state.matchStatus)}

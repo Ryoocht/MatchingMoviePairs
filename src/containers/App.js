@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import PrivateRoute from "../auth/PrivateRoute"
 import { AuthProvider } from "../auth/AuthProvider";
 import "../style/App.css";
@@ -19,8 +19,8 @@ const App = () => {
                     <Route exact path="/" component={NavBar} />
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/signup" component={SignUp} />
-                    <Route exact path="/game" component={NavBar} />
-                    <Route exact path="/game" component={CardTable} />
+                    <Route path="/game" component={NavBar} />
+                    <Route path="/game" component={CardTable} />
                     <Route exact path="/status" component={NavBar} />
                     <Route exact path="/status" component={Status} />
             </Router>
