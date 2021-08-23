@@ -1,5 +1,6 @@
 import { Component } from "react";
 import Card from "../components/Card";
+import { auth, db } from "../firebase/Firebase";
 
 class CardTable extends Component {
 
@@ -92,6 +93,7 @@ class CardTable extends Component {
                         this.cardClear();
                     }, 1000);
                 } else {
+                    // this.addRecordToDatabase();
                     message = "";
                     run = false;
                     title = "Congratulations!";
@@ -193,6 +195,19 @@ class CardTable extends Component {
         });
     }
 
+    // addRecordToDatabase = () => {
+    //     db.collection("users").doc(this.props.currentUser).collection("records").add({
+    //         attempts: this.state.record.attempts,
+    //         accuracy: this.state.record.accuracy
+    //     })
+    //     .then((docRef) => {
+    //         console.log("Document written with ID: ", docRef.id);
+    //     })
+    //     .then((error) => {
+    //         console.error("Error adding document: ", error);
+    //     })
+    // }
+
     renderCards = (cards, matchStatus) => {
         return this.state.movieImgs.length === this.state.initialCards.length
         ?
@@ -211,7 +226,7 @@ class CardTable extends Component {
     }
 
     render(){
-        const { gamesPlayed, attempts: attempt, accuracy } = this.state.record;
+        const { attempts: attempt, accuracy } = this.state.record;
         return(
             <div>
                 <button className="start-button" onClick={this.gameStart}>Game Start</button>

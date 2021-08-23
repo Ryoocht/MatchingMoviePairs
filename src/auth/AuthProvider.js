@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { auth } from "../firebase/Firebase";
+import { AddNewUser } from "../firebase/Database";
 
 const AuthContext = React.createContext()
 
@@ -11,7 +12,10 @@ const AuthProvider = ({ children }) => {
   const signup = async (email, password, history) => {
     try {
       await auth.createUserWithEmailAndPassword(email, password);
-      auth.onAuthStateChanged(user => setCurrentUser(user));
+      auth.onAuthStateChanged(user => {
+        setCurrentUser(user);
+        AddNewUser(user);
+      });
       history.push("/");
     } catch(error) {
       alert(error);
