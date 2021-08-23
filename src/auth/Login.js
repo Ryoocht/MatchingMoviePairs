@@ -19,7 +19,7 @@ const Login = ({ history }) => {
         <div>
             <div className="login">
                 <div className="logoContainer">
-                    <img className="movieicon" src={logo}></img>
+                    <img className="movieicon" src={logo} alt="logo"></img>
                     <p className="main-title">Matching Movie</p>
                     <p className="main-title">Pairs</p>
                 </div>
