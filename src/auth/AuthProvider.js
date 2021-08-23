@@ -13,7 +13,7 @@ const AuthProvider = ({ children }) => {
       await auth.createUserWithEmailAndPassword(email, password);
       auth.onAuthStateChanged(user => setCurrentUser(user));
       history.push("/");
-    } catch (error) {
+    } catch(error) {
       alert(error);
     }
   };
@@ -24,14 +24,16 @@ const AuthProvider = ({ children }) => {
       await auth.signInWithEmailAndPassword(email, password);
       auth.onAuthStateChanged(user => setCurrentUser(user));
       history.push("/");
-    } catch (error) {
+    } catch(error) {
       alert(error);
     }
   }
 
   //Log out function
   const logout = () => {
-    auth.signOut();
+    auth.signOut()
+    .then()
+    .catch(error => alert(error));
   }
 
   //Check if the user is authenticated already at the first access time

@@ -19,7 +19,6 @@ class CardTable extends Component {
             attempts: 0,
             clicks: 0,
             corrects: 0,
-            gamesPlayed: 0,
             time: "",
             accuracy: 0
         }
@@ -113,7 +112,7 @@ class CardTable extends Component {
                 }, 1000);
             }
         }
-        this.addNumberOfClicks(corrects);
+        this.addRecord(corrects);
         this.setState({
             matchStatus: matchStatus,
             cardStatus: cardStatus,
@@ -178,7 +177,7 @@ class CardTable extends Component {
         }
     }
 
-    addNumberOfClicks = corrects => {
+    addRecord = corrects => {
         const { clicks } = this.state.record;
         const numberOfClicks = clicks + 1;
         const attempts = Math.floor(numberOfClicks / 2);
@@ -219,7 +218,6 @@ class CardTable extends Component {
                 <div className="count-number">Time: {this.state.count}</div>
                 <div className="status">{this.state.message}</div>
                 <div id="gameStatus">
-                    <span className="stat">Games Played: {gamesPlayed}</span>
                     <span className="stat">Attempts: {attempt}</span>
                     <span className="stat">Accuracy: {accuracy}%</span>
                 </div>

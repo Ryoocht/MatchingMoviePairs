@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import { db } from "../firebase/Firebase";
+import "../style/Home.css";
 
-function Home(props) {
+const Home = () => {
+
     return (
         <div id="home">
             <select id="category_selection">

@@ -4,11 +4,11 @@ import { AuthContext } from "../auth/AuthProvider";
 
 const NavBar = () => {
     const { logout } = useContext(AuthContext);
-     const handleSubmit = () => {
+    const handleSubmit = () => {
         logout();
     }
 
-    return(
+    return (
         <div id="navbar">
             <NavLink to="/" exact>Home</NavLink>
             <NavLink to="/game" exact>Game</NavLink>
