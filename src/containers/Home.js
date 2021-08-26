@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import "../style/Home.css";
 import logo from "../img/movie-tickets.png";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
-const Home = () => {
+const Home = props => {
+
     const [ genreId, setGenreId ] = useState(28);
     const handleChange = e => {
         setGenreId(e.target.value);

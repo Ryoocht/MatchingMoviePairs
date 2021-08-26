@@ -1,7 +1,13 @@
-import React from "react";
+// import { useContext, useEffect } from "react";
 import "../style/record.css";
+// import { RecordContext } from "../contexts/RecordContext";
 
-const Status = record => {
+const Status = () => {
+
+    // const { AddRecord } = useContext(RecordContext);
+
+    
+
     return (
         <div>
             <h1>User Name</h1>

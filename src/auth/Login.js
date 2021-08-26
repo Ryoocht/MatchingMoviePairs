@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
-import { AuthContext } from "./AuthProvider";
+import { AuthContext } from "../contexts/AuthContext";
 import "../style/Auth.css";
 import logo from "../img/movie-tickets.png";
 

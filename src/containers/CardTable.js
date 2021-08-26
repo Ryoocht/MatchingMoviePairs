@@ -1,7 +1,7 @@
 import { Component } from "react";
 import Card from "../components/Card";
-// import { AddNewRecord } from "../firebase/Database";
 import "../style/Img.css";
+
 
 class CardTable extends Component {
 
@@ -34,6 +34,7 @@ class CardTable extends Component {
     }
 
     async componentDidMount() {
+        console.log(this.props)
         const genreId = this.props.location.pathname.split("/")[2];
         this.setState({
             genre: genreId
@@ -98,8 +99,7 @@ class CardTable extends Component {
                         this.cardClear();
                     }, 1000);
                 } else {
-                    // AddNewRecord(this.state.record);
-                    // console.log("addnewRecord should be called")
+                    this.addRecordToDatabase(this.state.time, this.state.attempts, this.state.accuracy);
                     message = "";
                     run = false;
                     title = "Congratulations!";

@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { auth } from "../firebase/Firebase";
-import { AddNewUser } from "../firebase/Database";
+import { createContext, useEffect, useState } from "react";
+import { auth, db } from "../firebase/Firebase";
 
-const AuthContext = React.createContext()
+const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -14,7 +13,6 @@ const AuthProvider = ({ children }) => {
       await auth.createUserWithEmailAndPassword(email, password);
       auth.onAuthStateChanged(user => {
         setCurrentUser(user);
-        AddNewUser(user);
       });
       history.push("/");
     } catch(error) {
