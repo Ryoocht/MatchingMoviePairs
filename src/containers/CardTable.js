@@ -1,6 +1,7 @@
 import { Component } from "react";
 import Card from "../components/Card";
 import "../style/Img.css";
+import ShowScore from "../components/ShowScore";
 
 
 class CardTable extends Component {
@@ -11,7 +12,7 @@ class CardTable extends Component {
         initialCards: [],
         matchStatus: Array(20).fill(0),
         cardStatus: -1,
-        message: '',
+        message: "Congratrations",
         count: 100,
         timer: null,
         title:  '',
@@ -21,9 +22,9 @@ class CardTable extends Component {
             attempts: 0,
             clicks: 0,
             corrects: 0,
-            time: "",
             accuracy: 0
-        }
+        },
+        showScore: true
     }
 
     fetchMoviePics = async() => {
@@ -99,12 +100,12 @@ class CardTable extends Component {
                         this.cardClear();
                     }, 1000);
                 } else {
-                    this.addRecordToDatabase(this.state.time, this.state.attempts, this.state.accuracy);
                     message = "";
                     run = false;
                     title = "Congratulations!";
                     overlay = "overlay overlay-end";
                     clearInterval(this.state.timer);
+                    this.setState({showScore: true})
                 }
             } else {
                 message = "Unmatched!";
@@ -219,20 +220,22 @@ class CardTable extends Component {
     }
 
     render(){
-        const { attempts: attempt, accuracy } = this.state.record;
+        const { attempts, accuracy } = this.state.record;
         return(
             <div>
                 <div className="status-container">
                     <button className="start-button" onClick={this.gameStart}>Game Start</button>
                     <div className="count-number">Time: {this.state.count}</div>
-                    <div className="gameStatus">Attempts: {attempt}</div>
+                    <div className="gameStatus">Attempts: {attempts}</div>
                     <div className="gameStatus">Accuracy: {accuracy}%</div>
-                    <div className="gameStatus">{this.state.message}</div>
                 </div>
                 <div className="table">
                     {this.renderCards(this.state.initialCards, this.state.matchStatus)}
                     <div className={this.state.overlay}><p className="title">{this.state.title}</p></div>
                 </div>
+                {this.state.showScore 
+                ? <ShowScore time={this.state.count} attempts={attempts} accuracy={accuracy} message={this.state.message} /> 
+                : <><div className="gameStatus">{this.state.message}</div></>}
             </div>
         )
     }

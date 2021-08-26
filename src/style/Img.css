@@ -144,3 +144,69 @@ button {
   text-align: center;
   text-align: justify;
 }
+
+.scoreContainer {
+  position: absolute;
+  top: 50%;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  margin: auto;
+  width: 400px;
+  height: 300px;
+  text-align: center;
+  align-items: center;
+  border-radius: 20px;
+  background-color: white;
+  z-index: 150;
+}
+
+.scoreTitle {
+  text-align: center;
+  width: 400px;
+  height: 50px;
+  margin-top: 0px;
+  margin-bottom: 20px;
+  font-size: 2.5rem;
+  border-radius: 20px 20px 0 0;
+}
+
+.score {
+  display: flex;
+  width: 350px;
+  height: 40px;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.scoreDetail {
+  font-size: 1.2rem;
+  width: 50%;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.scoreNumber {
+  font-size: 1.2rem;
+  width: 50%;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+#timeColor {
+  border-left: 10px solid #fa7f7f;
+}
+
+#attemptColor {
+  border-left: 10px solid #f8fba2;
+}
+
+#accuracyColor {
+  border-left: 10px solid #a0e4b0;
+}
+
+hr {
+  width: 300px;
+}

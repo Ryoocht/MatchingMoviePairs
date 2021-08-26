@@ -4,7 +4,7 @@ import logo from "../img/movie-tickets.png";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
-const Home = props => {
+const Home = () => {
 
     const [ genreId, setGenreId ] = useState(28);
     const handleChange = e => {
