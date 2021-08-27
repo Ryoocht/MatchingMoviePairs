@@ -12,10 +12,10 @@ class CardTable extends Component {
         initialCards: [],
         matchStatus: Array(20).fill(0),
         cardStatus: -1,
-        message: "Congratrations",
+        message: "",
         count: 100,
         timer: null,
-        title:  '',
+        title:  "",
         run:    false,
         overlay: 'overlay',
         record: {
@@ -24,7 +24,7 @@ class CardTable extends Component {
             corrects: 0,
             accuracy: 0
         },
-        showScore: true
+        showScore: false
     }
 
     fetchMoviePics = async() => {
@@ -35,7 +35,6 @@ class CardTable extends Component {
     }
 
     async componentDidMount() {
-        console.log(this.props)
         const genreId = this.props.location.pathname.split("/")[2];
         this.setState({
             genre: genreId
@@ -234,8 +233,8 @@ class CardTable extends Component {
                     <div className={this.state.overlay}><p className="title">{this.state.title}</p></div>
                 </div>
                 {this.state.showScore 
-                ? <ShowScore time={this.state.count} attempts={attempts} accuracy={accuracy} message={this.state.message} /> 
-                : <><div className="gameStatus">{this.state.message}</div></>}
+                ? <ShowScore time={this.state.count} attempts={attempts} accuracy={accuracy} title={this.state.title} /> 
+                : <><div className="gameStatus">{this.state.title}</div></>}
             </div>
         )
     }

@@ -1,41 +1,35 @@
-// import { createContext, useState } from "react";
-// import { db } from "../firebase/Firebase";
+import { createContext, useState } from "react";
+import { db } from "../firebase/Firebase";
 
-// const RecordContext = createContext();
+const RecordContext = createContext();
 
-// const RecordContextProvider = ({ children }) => {
+const RecordProvider = ({ children }) => {
 
-//     const [ recordData, setRecordData ] = useState([]);
-//     const [ timeRecord, setTimeRecord ] = useState("");
-//     const [ attemptRecord, setAttemptRecord ] = useState("");
-//     const [ accuracyRecord, setAccuracyRecord ] = useState("");
+    const [ recordData, setRecordData ] = useState([]);
 
-//     const getAllRecord = (record) => {
-//         console.log(record)
-//     }
+    const addNewRecord = (time, attempt, accuracy, totals, user) => {
+        db.collection("users").doc(user.uid).collection("recordData").add({
+            time: time,
+            attempts: attempt,
+            accuracy: accuracy,
+            total: totals
+        })
+        .then(() => {
+            setRecordData({
+            time: time,
+            attempts: attempt,
+            accuracy: accuracy,
+            total: totals
+            });
+            console.log("setRecordData")
+        })
+    }
 
-//     const AddRecord = (time, attempt, accuracy) => {
-//         db.collection("users").doc("records").set({
-//             time,
-//             attempt,
-//             accuracy
-//         })
-//         .then(resp => {
-//             setRecordData([
-//                 ...recordData, {
-//                     time: timeRecord,
-//                     attempt: attemptRecord,
-//                     accuracy: accuracyRecord,
-//                 }
-//             ]);
-//         });
-//     }
+    return(
+        <RecordContext.Provider value={{ addNewRecord }} >
+            {children}
+        </RecordContext.Provider>
+    )
+}
 
-//     return(
-//         <RecordContext.Provider value={ getAllRecord } >
-//             {children}
-//         </RecordContext.Provider>
-//     )
-// }
-
-// export { RecordContext, RecordContextProvider };
+export { RecordContext, RecordProvider };

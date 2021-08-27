@@ -1,5 +1,13 @@
-
+import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
+import { RecordContext } from "../contexts/RecordContext";
+ 
 const ShowScore = (props) => {
+
+    const { currentUser } = useContext(AuthContext);
+    const { addNewRecord } = useContext(RecordContext);
+    const [ totals, setTotals] = useState(null);
 
     const totalScore = () => {
         const time = props.time;
@@ -32,24 +40,31 @@ const ShowScore = (props) => {
         } else {
             calculatedAccuracy = accuracy * 1.5;
         }
-        console.log(calculatedTime + calculatedAttempts + calculatedAccuracy)
-        return calculatedTime + calculatedAttempts + calculatedAccuracy;
+        const totalScore = Math.ceil(calculatedTime + calculatedAttempts + calculatedAccuracy)
+        return totalScore;
     }
 
     const windowReload = () => {
         window.location.reload();
     }
 
+    useEffect(() => {
+        setTotals(totalScore);
+        if(totals !== null){
+            addNewRecord(props.time, props.attempts, props.accuracy, totals, currentUser);
+        }
+    }, [totals])
+                
     return(
         <div className="scoreContainer">
-            <p className="scoreTitle">{props.message}</p>
+            <p className="scoreTitle">{props.title}</p>
             <p className="score"><span className="scoreDetail" id="timeColor">TIME</span><span className="scoreNumber">{props.time}/100</span></p>
             <p className="score"><span className="scoreDetail" id="attemptColor">ATTEMPTS</span><span className="scoreNumber">{props.attempts}/10 min</span></p>
             <p className="score"><span className="scoreDetail" id="accuracyColor">ACCURACY</span><span className="scoreNumber">{props.accuracy}%/100%</span></p>
             <hr/>
-            <p className="score"><span className="scoreDetail">TOTAL</span><span className="scoreNumber">{() => totalScore}pt</span></p>
+            <p className="score"><span className="scoreDetail">TOTAL</span><span className="scoreNumber">{totalScore()}pt</span></p>
             <button className="playAgain" onClick={windowReload}>Play Again</button>
-            <button className="checkYourRecord">Check Your Record</button>
+            <button className="scores"><Link to="/status" className="scoreLink">Scores</Link></button>
         </div>
     )
 }
