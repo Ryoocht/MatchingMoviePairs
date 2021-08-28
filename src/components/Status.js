@@ -1,28 +1,32 @@
-// import { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import "../style/record.css";
-// import { RecordContext } from "../contexts/RecordContext";
+import { AuthContext } from "../contexts/AuthContext";
+import { RecordContext } from "../contexts/RecordContext";
+import StatusRow from "./StatusRow";
 
 const Status = () => {
 
-    // const { AddRecord } = useContext(RecordContext);
+    const { currentUser } = useContext(AuthContext);
+    const { newRecord, recordData, getAllRecords } = useContext(RecordContext);
 
-    
+    useEffect(() => {
+        getAllRecords(currentUser);
+        recordData.forEach(element => {
+            console.log(element)
+        });
+    }, [])
 
     return (
         <div>
             <h1>User Name</h1>
-            <table class="recordTable">
+            <table className="recordTable">
                 <tbody>
                     <tr>
                         <th>Time</th>
                         <th>Attempts</th>
                         <th>Accuracy</th>
                     </tr>
-                    <tr>
-                        <td>XXXXX</td>
-                        <td>XXXXX</td>
-                        <td>XXXXX</td>
-                    </tr>
+                    {/* {recordData.map(data => <StatusRow />)} */}
                 </tbody>
             </table>
         </div>

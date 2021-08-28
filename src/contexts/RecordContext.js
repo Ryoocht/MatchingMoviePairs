@@ -5,6 +5,7 @@ const RecordContext = createContext();
 
 const RecordProvider = ({ children }) => {
 
+    const [ newRecord, setNewRecord ] = useState([]);
     const [ recordData, setRecordData ] = useState([]);
 
     const addNewRecord = (time, attempt, accuracy, totals, user) => {
@@ -15,18 +16,25 @@ const RecordProvider = ({ children }) => {
             total: totals
         })
         .then(() => {
-            setRecordData({
+            setNewRecord({
             time: time,
             attempts: attempt,
             accuracy: accuracy,
             total: totals
             });
-            console.log("setRecordData")
         })
     }
 
+    const getAllRecords = async user => {
+        if(user){
+            const recordCollection = await db.collection("users").doc(user.uid).collection("recordData").get();
+            console.log(recordCollection)
+            recordCollection.forEach(record => setRecordData(record.data()));
+        }
+    }
+
     return(
-        <RecordContext.Provider value={{ addNewRecord }} >
+        <RecordContext.Provider value={{ newRecord, recordData, addNewRecord, getAllRecords }} >
             {children}
         </RecordContext.Provider>
     )
