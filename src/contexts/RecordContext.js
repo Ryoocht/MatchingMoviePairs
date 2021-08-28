@@ -28,13 +28,14 @@ const RecordProvider = ({ children }) => {
     const getAllRecords = async user => {
         if(user){
             const recordCollection = await db.collection("users").doc(user.uid).collection("recordData").get();
-            console.log(recordCollection)
-            recordCollection.forEach(record => setRecordData(record.data()));
+            recordCollection.forEach(record => setRecordData({
+                ...record.data()
+            }));
         }
     }
 
     return(
-        <RecordContext.Provider value={{ newRecord, recordData, addNewRecord, getAllRecords }} >
+        <RecordContext.Provider value={{ newRecord, recordData, setRecordData, addNewRecord, getAllRecords }} >
             {children}
         </RecordContext.Provider>
     )

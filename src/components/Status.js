@@ -7,14 +7,15 @@ import StatusRow from "./StatusRow";
 const Status = () => {
 
     const { currentUser } = useContext(AuthContext);
-    const { newRecord, recordData, getAllRecords } = useContext(RecordContext);
+    const { newRecord, recordData, setRecordData, getAllRecords } = useContext(RecordContext);
 
     useEffect(() => {
         getAllRecords(currentUser);
-        recordData.forEach(element => {
-            console.log(element)
-        });
-    }, [])
+        setRecordData([
+            ...recordData,
+            newRecord
+        ])
+    }, [newRecord])
 
     return (
         <div>
@@ -25,8 +26,11 @@ const Status = () => {
                         <th>Time</th>
                         <th>Attempts</th>
                         <th>Accuracy</th>
+                        <th>Total</th>
                     </tr>
-                    {/* {recordData.map(data => <StatusRow />)} */}
+                    <tr>
+                    {recordData.map(data => <StatusRow data={data}/>)}
+                    </tr>
                 </tbody>
             </table>
         </div>

@@ -1,10 +1,11 @@
-import { Component } from "react";
-
-const StatusRow = () => {
+const StatusRow = props => {
     return(
-        <div>
-            
-        </div>
+        <>
+            <td>{props.data.time}</td>
+            <td>{props.data.attempts}</td>
+            <td>{props.data.accuracy}</td>
+            <td>{props.data.total}</td>
+        </>
     )
 }
 
