@@ -7,22 +7,18 @@ import StatusRow from "./StatusRow";
 const Status = () => {
 
     const { currentUser } = useContext(AuthContext);
-    const { newRecord, recordData, setRecordData, getAllRecords } = useContext(RecordContext);
+    const { newRecord, recordData, getAllRecords } = useContext(RecordContext);
 
     useEffect(() => {
         getAllRecords(currentUser);
-        setRecordData([
-            ...recordData,
-            newRecord
-        ])
-    }, [newRecord])
+    }, [])
 
     return (
         <div>
-            <h1>User Name</h1>
             <table className="recordTable">
                 <tbody>
                     <tr>
+                        <th>Rank</th>
                         <th>Time</th>
                         <th>Attempts</th>
                         <th>Accuracy</th>

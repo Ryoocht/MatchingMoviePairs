@@ -2,6 +2,7 @@
     width: 100%;
     border-collapse: collapse;
     border-right: 1px solid #8fd2ed;
+    text-align: center;
 }
 .recordTable th{
     padding: 10px;
@@ -14,3 +15,4 @@
     background-color: #fff;
     border: 1px solid #999;
 }
+
