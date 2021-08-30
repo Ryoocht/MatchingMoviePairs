@@ -10,20 +10,20 @@ const StatusRow = props => {
         } else if(i === 2){
             ranking = "silver";
         } else if(i === 3) {
-            ranking = "blonze";
+            ranking = "bronze";
         } else {
             ranking = "ranking";
         }
     }
 
     return(
-        <>
-            <td className={ranking}>{count}</td>
+        <tr className={ranking}>
+            <td>{count}</td>
             <td>{props.data.time}</td>
             <td>{props.data.attempts}</td>
             <td>{props.data.accuracy}</td>
             <td>{props.data.total}</td>
-        </>
+        </tr>
     )
 }
 

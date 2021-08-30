@@ -24,9 +24,9 @@ const Status = () => {
                         <th>Accuracy</th>
                         <th>Total</th>
                     </tr>
-                    <tr>
+                    <>
                     {recordData.map(data => <StatusRow data={data}/>)}
-                    </tr>
+                    </>
                 </tbody>
             </table>
         </div>
