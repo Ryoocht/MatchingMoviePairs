@@ -34,7 +34,7 @@ const RecordProvider = ({ children }) => {
                 )
                 // console.log(record.data())
             });
-            console.log(recordData)
+            // console.log(recordData)
         }
     }
 
