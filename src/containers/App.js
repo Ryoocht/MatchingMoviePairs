@@ -16,9 +16,9 @@ const App = () => {
     return (
         <AuthProvider>
             <RecordProvider>
-                <Router>
+                <Router basename="/MatchingMoviePairs">
                         <PrivateRoute exact path="/" component={Home} />
-                        <Route exact path="/" component={NavBar} />
+                        <Route exact path="/navbar" component={NavBar} />
                         <Route exact path="/login" component={Login} />
                         <Route exact path="/signup" component={SignUp} />
                         <Route path="/game" component={NavBar} />

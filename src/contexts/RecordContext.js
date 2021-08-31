@@ -1,10 +1,11 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 import { db } from "../firebase/Firebase";
+import { AuthContext } from "./AuthContext";
 
 const RecordContext = createContext();
 
 const RecordProvider = ({ children }) => {
-
+    const { currentUser } = useContext(AuthContext);
     const [ newRecord, setNewRecord ] = useState([]);
     const [ recordData, setRecordData ] = useState([]);
 
@@ -28,15 +29,19 @@ const RecordProvider = ({ children }) => {
     const getAllRecords = async user => {
         if(user){
             const recordCollection = await db.collection("users").doc(user.uid).collection("recordData").get();
-            recordCollection.forEach(record => {
-                setRecordData(
-                    [...recordData, {...record.data()}]
-                )
-                // console.log(record.data())
+            const collection = []
+            recordCollection.forEach(async record => {
+                const data = await record.data()
+                collection.push(data)
             });
-            // console.log(recordData)
+            console.log("collection: ",collection)
+            setRecordData(collection)
         }
     }
+
+    useEffect(() => {
+        getAllRecords(currentUser);
+    }, [currentUser])
 
     return(
         <RecordContext.Provider value={{ newRecord, recordData, addNewRecord, getAllRecords }} >

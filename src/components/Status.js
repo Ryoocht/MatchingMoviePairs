@@ -1,17 +1,28 @@
-import { useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import "../style/record.css";
 import { AuthContext } from "../contexts/AuthContext";
 import { RecordContext } from "../contexts/RecordContext";
 import StatusRow from "./StatusRow";
 
 const Status = () => {
-
-    const { currentUser } = useContext(AuthContext);
-    const { newRecord, recordData, getAllRecords } = useContext(RecordContext);
+    
+    const { recordData, getAllRecords } = useContext(RecordContext);
+    const [data, setData] = useState([])
 
     useEffect(() => {
-        getAllRecords(currentUser);
-    }, [])
+        setData(recordData)
+    }, [recordData])
+
+    const sortFnc = (sort="time") => {
+        const newRecord = recordData.sort((a, b) => b["time"] - a["time"])
+        setData([...newRecord])
+        console.log("newRecord:", newRecord)
+        console.log("data:", data)
+    }
+    
+    // const callRenderFun = () => {
+    //     return data.map((data, index)=> <StatusRow data={data} index={index}/>)
+    // }
 
     return (
         <div>
@@ -24,11 +35,12 @@ const Status = () => {
                         <th>Accuracy</th>
                         <th>Total</th>
                     </tr>
-                    <>
-                    {recordData.map(data => <StatusRow data={data}/>)}
-                    </>
+                    
+                    {data.map((data, index)=> <StatusRow data={data} index={index}/>)}
+                    {/* {callRenderFun()} */}
                 </tbody>
             </table>
+            <button onClick={sortFnc}>Sort button</button>
         </div>
     )
 }
