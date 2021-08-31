@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/MatchingMoviePairs/static/css/main.553c2c91.chunk.css",
-    "main.js": "/MatchingMoviePairs/static/js/main.974d2f6a.chunk.js",
-    "main.js.map": "/MatchingMoviePairs/static/js/main.974d2f6a.chunk.js.map",
+    "main.js": "/MatchingMoviePairs/static/js/main.5849830c.chunk.js",
+    "main.js.map": "/MatchingMoviePairs/static/js/main.5849830c.chunk.js.map",
     "runtime-main.js": "/MatchingMoviePairs/static/js/runtime-main.a8aa32b4.js",
     "runtime-main.js.map": "/MatchingMoviePairs/static/js/runtime-main.a8aa32b4.js.map",
     "static/js/2.b6907697.chunk.js": "/MatchingMoviePairs/static/js/2.b6907697.chunk.js",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.a8aa32b4.js",
     "static/js/2.b6907697.chunk.js",
     "static/css/main.553c2c91.chunk.css",
-    "static/js/main.974d2f6a.chunk.js"
+    "static/js/main.5849830c.chunk.js"
   ]
 }
