@@ -9,7 +9,7 @@ import Login from "../auth/Login";
 import SignUp from "../auth/SignUp";
 import NavBar from "../components/NavBar";
 import CardTable from "./CardTable";
-import Status from "../components/Status";
+import RecordTable from "../containers/RecordTable";
 
 
 const App = () => {
@@ -22,7 +22,7 @@ const App = () => {
                         <Route exact path="/login" component={Login} />
                         <Route exact path="/signup" component={SignUp} />
                         <Route path="/game" component={CardTable} />
-                        <Route exact path="/status" component={Status} />
+                        <Route exact path="/status" component={RecordTable} />
                 </Router>
             </RecordProvider>
         </AuthProvider>

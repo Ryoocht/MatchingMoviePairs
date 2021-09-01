@@ -1,7 +1,7 @@
 import { Component } from "react";
 import Card from "../components/Card";
 import "../style/Img.css";
-import ShowScore from "../components/ShowScore";
+import ScoreBoard from "../components/ScoreBoard";
 
 
 class CardTable extends Component {
@@ -233,7 +233,7 @@ class CardTable extends Component {
                     <div className={this.state.overlay}><p className="title">{this.state.title}</p></div>
                 </div>
                 {this.state.showScore 
-                ? <ShowScore time={this.state.count} attempts={attempts} accuracy={accuracy} title={this.state.title} /> 
+                ? <ScoreBoard time={this.state.count} attempts={attempts} accuracy={accuracy} title={this.state.title} /> 
                 : <><div className="gameStatus">{this.state.title}</div></>}
             </div>
         )

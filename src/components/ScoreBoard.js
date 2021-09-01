@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import { RecordContext } from "../contexts/RecordContext";
  
-const ShowScore = (props) => {
+const ScoreBoard = (props) => {
 
     const { currentUser } = useContext(AuthContext);
     const { addNewRecord } = useContext(RecordContext);
@@ -69,4 +69,4 @@ const ShowScore = (props) => {
     )
 }
 
-export default ShowScore;
+export default ScoreBoard;

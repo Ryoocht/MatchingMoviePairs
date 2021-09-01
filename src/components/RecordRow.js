@@ -1,6 +1,6 @@
 import "../style/record.css";
 
-const StatusRow = props => {
+const RecordRow = props => {
     let rankClass;
     switch(props.index + 1){
         case 1: 
@@ -28,4 +28,4 @@ const StatusRow = props => {
     )
 }
 
-export default StatusRow;
+export default RecordRow;

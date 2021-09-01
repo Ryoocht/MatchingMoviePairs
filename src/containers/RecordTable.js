@@ -1,9 +1,9 @@
 import { useState, useContext, useEffect } from "react";
 import "../style/record.css";
 import { RecordContext } from "../contexts/RecordContext";
-import StatusRow from "./StatusRow";
+import RecordRow from "../components/RecordRow";
 
-const Status = () => {
+const RecordTable = () => {
     
     const { recordData } = useContext(RecordContext);
     const [data, setData] = useState([])
@@ -29,12 +29,11 @@ const Status = () => {
                         <th>Accuracy <button className="triangleBtn" value="accuracy" onClick={sortBtn}>▼</button></th>
                         <th>Total <button className="triangleBtn" value="total" onClick={sortBtn}>▼</button></th>
                     </tr>
-                    {data.map((data, index)=> <StatusRow data={data} index={index}/>)}
+                    {data.map((data, index)=> <RecordRow data={data} index={index}/>)}
                 </tbody>
             </table>
-            {/* <button onClick={sortFnc}>Sort button</button> */}
         </div>
     )
 }
 
-export default Status;
+export default RecordTable;
