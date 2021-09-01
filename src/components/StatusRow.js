@@ -1,11 +1,24 @@
 import "../style/record.css";
 
 const StatusRow = props => {
-    const rank = {1: "gold", 2: "silver", 3: "bronze", 4: "white"}
-    
+    let rankClass;
+    switch(props.index + 1){
+        case 1: 
+            rankClass = "gold";
+            break;
+        case 2:
+            rankClass = "silver";
+            break;
+        case 3:
+            rankClass = "bronze";
+            break;
+        default: 
+            rankClass = "others";
+            break;
+    }
 
     return(
-        <tr className={rank[props.index]}>
+        <tr className={rankClass}>
             <td>{props.index + 1}</td>
             <td>{props.data.time}</td>
             <td>{props.data.attempts}</td>

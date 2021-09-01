@@ -16,17 +16,26 @@
     border: 1px solid #999;
 }
 
-.gold {
-    background-color: #e9e66e;
+.gold td {
+    background-color: #FFD700;
     font-size: 1.2rem;
 }
 
-.silver {
-    background-color: #e2e2e2;
+.silver td {
+    background-color: #C0C0C0;
     font-size: 1.2rem;
 }
 
-.bronze {
+.bronze td {
     background-color: #aa8b15;
     font-size: 1.2rem;
+}
+
+.others {
+    background-color: white;
+}
+
+.triangleBtn {
+    border: none;
+    background-color: #cee7ff;
 }

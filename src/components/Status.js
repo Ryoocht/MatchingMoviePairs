@@ -1,28 +1,22 @@
 import { useState, useContext, useEffect } from "react";
 import "../style/record.css";
-import { AuthContext } from "../contexts/AuthContext";
 import { RecordContext } from "../contexts/RecordContext";
 import StatusRow from "./StatusRow";
 
 const Status = () => {
     
-    const { recordData, getAllRecords } = useContext(RecordContext);
+    const { recordData } = useContext(RecordContext);
     const [data, setData] = useState([])
 
     useEffect(() => {
         setData(recordData)
     }, [recordData])
 
-    const sortFnc = (sort="time") => {
-        const newRecord = recordData.sort((a, b) => b["time"] - a["time"])
+    const sortBtn = e => {
+        let sortFilter = e.target.value;
+        const newRecord = recordData.sort((a, b) => b[sortFilter] - a[sortFilter])
         setData([...newRecord])
-        console.log("newRecord:", newRecord)
-        console.log("data:", data)
     }
-    
-    // const callRenderFun = () => {
-    //     return data.map((data, index)=> <StatusRow data={data} index={index}/>)
-    // }
 
     return (
         <div>
@@ -30,17 +24,15 @@ const Status = () => {
                 <tbody>
                     <tr>
                         <th>Rank</th>
-                        <th>Time</th>
-                        <th>Attempts</th>
-                        <th>Accuracy</th>
-                        <th>Total</th>
+                        <th>Time <button className="triangleBtn" value="time" onClick={sortBtn}>▼</button></th>
+                        <th>Attempts <button className="triangleBtn" value="attempts" onClick={sortBtn}>▼</button></th>
+                        <th>Accuracy <button className="triangleBtn" value="accuracy" onClick={sortBtn}>▼</button></th>
+                        <th>Total <button className="triangleBtn" value="total" onClick={sortBtn}>▼</button></th>
                     </tr>
-                    
                     {data.map((data, index)=> <StatusRow data={data} index={index}/>)}
-                    {/* {callRenderFun()} */}
                 </tbody>
             </table>
-            <button onClick={sortFnc}>Sort button</button>
+            {/* <button onClick={sortFnc}>Sort button</button> */}
         </div>
     )
 }

@@ -17,13 +17,11 @@ const App = () => {
         <AuthProvider>
             <RecordProvider>
                 <Router basename="/MatchingMoviePairs">
+                    <NavBar />
                         <PrivateRoute exact path="/" component={Home} />
-                        <Route exact path="/navbar" component={NavBar} />
                         <Route exact path="/login" component={Login} />
                         <Route exact path="/signup" component={SignUp} />
-                        <Route path="/game" component={NavBar} />
                         <Route path="/game" component={CardTable} />
-                        <Route exact path="/status" component={NavBar} />
                         <Route exact path="/status" component={Status} />
                 </Router>
             </RecordProvider>

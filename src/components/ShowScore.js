@@ -50,7 +50,7 @@ const ShowScore = (props) => {
 
     useEffect(() => {
         setTotals(totalScore);
-        if(totals !== null){
+        if(totals !== null && currentUser){
             addNewRecord(props.time, props.attempts, props.accuracy, totals, currentUser);
         }
     }, [totals])

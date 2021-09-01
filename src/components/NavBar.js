@@ -14,7 +14,7 @@ const NavBar = () => {
             <NavLink to="/" exact>Home</NavLink>
             <NavLink to="/game" exact>Game</NavLink>
             <NavLink to="/status" exact>Status</NavLink>
-            <button className="btn" type="submit" onSubmit={handleSubmit}>Log Out</button>
+            <button className="btn" type="submit" onClick={handleSubmit}>Log Out</button>
         </div>
     )
 }
